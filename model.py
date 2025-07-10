@@ -28,6 +28,14 @@ def set_custom_prompt():
                             input_variable=['context','question'])
     return prompt
 
+#Loading the Model
+def load_llm():
+    llm=Ollama(
+        model="llama3.2:1b",
+        temperature=0.5,#determines creativity
+    )
+    return llm
+
 #Retrieval QA chain
 def retrieval_qa_chain(llm,prompt,db):
     qa_chain = RetrievalQA.from_chain_type(llm=llm,
@@ -37,15 +45,6 @@ def retrieval_qa_chain(llm,prompt,db):
                                            chain_type_kwargs={'prompt':prompt}# injects custom prompt template
     )
     return qa_chain
-
-#Loading the Model
-def load_llm():
-    llm=Ollama(
-        model="llama3.2:1b",
-        temperature=0.5,#determines creativity
-        # max_tokens=512 # generates upto 512 tokens in response
-    )
-    return llm
 
 #QA Model Function
 def qa_bot():
