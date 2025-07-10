@@ -1,0 +1,10 @@
+venv/
+# Ignore large data and model files
+vectorstore/
+data/*.pdf
+*.pkl
+*.faiss
+# Ignore any large files in .git history (after cleaning)
+*.so
+*.dylib
+*.dll
