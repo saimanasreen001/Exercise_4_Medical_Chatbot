@@ -67,22 +67,22 @@ def final_result(query):
 @cl.on_chat_start
 async def start():
     chain = qa_bot()
-    msg = cl.Message(content="Starting the bot...")
+    msg = cl.Message(content="Starting the bot...") # first displays starting the bot
     await msg.send()
-    msg.content = "Hi, Welcome to Medical Bot. What is your query?"
+    msg.content = "Hi, Welcome to Medical Bot. What is your query?" # then displays this message
     await msg.update()
     cl.user_session.set("chain", chain)
 
 @cl.on_message
-async def main(message: cl.Message):
+async def main(message: cl.Message):# message is the user's message
     chain = cl.user_session.get("chain")
     res = await chain.acall(message.content)
-    answer = res["result"]
-    sources = res["source_documents"]
-    source_texts = "\n\n".join(
+    answer = res["result"] # holds answer given by the chatbot
+    sources = res["source_documents"] # holds answer resource.
+    source_texts = "\n\n".join( # holds structure of source like pagelabel , page 
         f"Source (page {doc.metadata.get('page_label', doc.metadata.get('page', ''))}): {doc.metadata.get('source', '')}"
         for doc in sources
     )
-    msg = cl.Message(content=f"{answer}\n\n{source_texts}")
-    await msg.send()
+    msg = cl.Message(content=f"{answer}\n\n{source_texts}") # displays answer and source together.
+    await msg.send() # sends message on UI.
 
